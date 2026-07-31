@@ -6,6 +6,6 @@ module.exports = defineConfig({
       // implement node event listeners here
       
     },
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000' //Deve ser feita desse maneira, pois é um arquivo de configuração, tendo prioridade ao cypress.env; || delimita um OU, já que se o primeiro metódo não passar, o segundo é executado
   },
 });
