@@ -1,29 +1,71 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: Exercício do módulo 26 part 2
 
 on:
   push:
     branches: [ "main" ]
+
+permissions:
+  contents: write
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Checkout do repositório de reservas
+      uses: actions/checkout@v4
+      with:
+        path: projeto-reservas
+
+    - name: Checkout do hub de leitura
+      uses: actions/checkout@v4
+      with:
+        repository: LucasBaccin/hub-de-leitura-integrado
+        path: hub-de-leitura
+
+    - name: Configurar Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 20
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+        cache-dependency-path: |
+            hub-de-leitura/package-lock.json
+            projeto-reservas/package-lock.json
+
+    - name: Instalar dependências do hub de leitura
+      working-directory: hub-de-leitura
+      run: npm install
+
+    - name: Iniciar o hub de leitura
+      working-directory: hub-de-leitura
+      run: npm start &
+
+    - name: Aguardar o hub de leitura iniciar
+      run: npx wait-on http://127.0.0.1:3000 --timeout=10000
+
+    - name: Instalar dependências do repositório de reservas
+      working-directory: projeto-reservas
+      run: npm install
+
+    - name: Executar os testes
+      working-directory: projeto-reservas
+      run: npx cypress run
+
+    - name: Gerar relatório Allure
+      if: always() # Garante que o relatório seja gerado mesmo que os testes falhem
+      working-directory: projeto-reservas
+      run: npm run report:generate
+
+    - name: Publicar relatório no GitHub Pages
+      if: always() # Garante que o relatório seja publicado mesmo que os testes falhem
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./projeto-reservas/allure-report
+
+    - name: Exibir link do relatório
+      if: always() # Garante que o link seja exibido mesmo que os testes falhem
+      run: |
+         echo "Relatório Allure publicado em: https://LucasBaccin.github.io/hub-de-leitura-integrado/"
+         echo "" >> $GITHUB_STEP_SUMMARY
