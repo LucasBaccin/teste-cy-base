@@ -1,0 +1,8 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","697","Deve simular um erro de dados inválidos - Intercept","Funcionalidade: Administrar Reservas de livros","2026-08-07","passed","2026-08-07","","","",""
+"","2636","Deve fazer login com sucesso com usuário comum - Intercept","Funcionalidade: Administrar Reservas de livros","2026-08-07","passed","2026-08-07","","","",""
+"","706","Deve simular um erro de credenciais inválidas - Intercept","Funcionalidade: Administrar Reservas de livros","2026-08-07","passed","2026-08-07","","","",""
+"","1886","Deve fazer login com sucesso com usuário comum - comando customizado","Funcionalidade: Administrar Reservas de livros","2026-08-07","passed","2026-08-07","","","",""
+"","2012","Deve fazer login com sucesso com usuário admin - comando customizado","Funcionalidade: Administrar Reservas de livros","2026-08-07","passed","2026-08-07","","","",""
+"","264","Deve exibir as reservas via intercept","Funcionalidade: Administrar Reservas de livros","2026-08-07","passed","2026-08-07","","","",""
+"","703","Deve simular um erro do servidor - Intercept","Funcionalidade: Administrar Reservas de livros","2026-08-07","passed","2026-08-07","","","",""
