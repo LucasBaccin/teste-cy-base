@@ -37,7 +37,7 @@ describe('Funcionalidade: Administrar Reservas de livros', () => {
                 statusCode: 304,
                 body: livrosReservados
             }).as('listaReservas')
-
+            cy.loginApp(Cypress.env('USER_EMAIL'), Cypress.env('USER_SENHA'))
             cy.visit('dashboard.html')
             cy.wait('@listaReservas')
         })
